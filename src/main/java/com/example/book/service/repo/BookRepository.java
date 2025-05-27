@@ -4,7 +4,9 @@ import com.example.book.service.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    // TODO Place your code here
+    Optional<Book> findByName(String name);
 }

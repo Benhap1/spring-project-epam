@@ -50,7 +50,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.DRAFT;
 
 
     @Override
