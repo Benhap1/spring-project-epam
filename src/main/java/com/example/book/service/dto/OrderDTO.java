@@ -1,5 +1,6 @@
 package com.example.book.service.dto;
 
+import com.example.book.service.model.enums.OrderStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -17,4 +18,5 @@ public class OrderDTO {
     private LocalDateTime orderDate;
     private BigDecimal price;
     private List<BookItemDTO> bookItems;
+    private OrderStatus status;
 }
