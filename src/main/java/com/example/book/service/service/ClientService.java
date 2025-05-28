@@ -1,5 +1,6 @@
 package com.example.book.service.service;
 
+import com.example.book.service.dto.ClientCreateRequestDTO;
 import com.example.book.service.dto.ClientDTO;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface ClientService {
 
     void deleteClientByEmail(String email);
 
-    ClientDTO addClient(ClientDTO client);
+    ClientDTO addClient(ClientCreateRequestDTO client);
 }

@@ -1,7 +1,8 @@
 package com.example.book.service.service.impl;
 
 import com.example.book.service.dto.BookDTO;
-import com.example.book.service.exception.ResourceNotFoundException;
+import com.example.book.service.exception.AlreadyExistException;
+import com.example.book.service.exception.NotFoundException;
 import com.example.book.service.model.Book;
 import com.example.book.service.repo.BookRepository;
 import com.example.book.service.service.BookService;
@@ -30,31 +31,38 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDTO getBookByName(String name) {
         Book book = bookRepository.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found with name: " + name));
+                .orElseThrow(() -> new NotFoundException("Book not found with name: " + name));
         return modelMapper.map(book, BookDTO.class);
     }
 
     @Override
     public BookDTO updateBookByName(String name, BookDTO bookDTO) {
         Book book = bookRepository.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found with name: " + name));
+                .orElseThrow(() -> new NotFoundException("Book not found with name: " + name));
 
-        modelMapper.map(bookDTO, book); // обновляет поля существующего объекта
+        modelMapper.map(bookDTO, book);
         Book saved = bookRepository.save(book);
+
         return modelMapper.map(saved, BookDTO.class);
     }
 
     @Override
     public void deleteBookByName(String name) {
         Book book = bookRepository.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found with name: " + name));
+                .orElseThrow(() -> new NotFoundException("Book not found with name: " + name));
         bookRepository.delete(book);
     }
 
     @Override
     public BookDTO addBook(BookDTO bookDTO) {
+        boolean exists = bookRepository.findByName(bookDTO.getName()).isPresent();
+        if (exists) {
+            throw new AlreadyExistException("Book already exists with name: " + bookDTO.getName());
+        }
+
         Book book = modelMapper.map(bookDTO, Book.class);
         Book saved = bookRepository.save(book);
+
         return modelMapper.map(saved, BookDTO.class);
     }
 }

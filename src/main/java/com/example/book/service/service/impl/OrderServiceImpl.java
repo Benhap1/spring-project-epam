@@ -1,7 +1,7 @@
 package com.example.book.service.service.impl;
 
 import com.example.book.service.dto.OrderDTO;
-import com.example.book.service.exception.ResourceNotFoundException;
+import com.example.book.service.exception.NotFoundException;
 import com.example.book.service.model.Client;
 import com.example.book.service.model.Employee;
 import com.example.book.service.model.Order;
@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> getOrdersByClient(String clientEmail) {
         Client client = clientRepository.findByEmail(clientEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("Client not found with email: " + clientEmail));
+                .orElseThrow(() -> new NotFoundException("Client not found with email: " + clientEmail));
 
         return orderRepository.findAllByClient(client)
                 .stream()
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> getOrdersByEmployee(String employeeEmail) {
         Employee employee = employeeRepository.findByEmail(employeeEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with email: " + employeeEmail));
+                .orElseThrow(() -> new NotFoundException("Employee not found with email: " + employeeEmail));
 
         return orderRepository.findAllByEmployee(employee)
                 .stream()

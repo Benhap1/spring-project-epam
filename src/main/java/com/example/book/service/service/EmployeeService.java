@@ -1,5 +1,6 @@
 package com.example.book.service.service;
 
+import com.example.book.service.dto.EmployeeCreateRequestDTO;
 import com.example.book.service.dto.EmployeeDTO;
 
 import java.util.List;
@@ -13,5 +14,6 @@ public interface EmployeeService {
 
     void deleteEmployeeByEmail(String email);
 
-    EmployeeDTO addEmployee(EmployeeDTO employee);
+    EmployeeDTO addEmployee(EmployeeCreateRequestDTO employee);
+
 }
