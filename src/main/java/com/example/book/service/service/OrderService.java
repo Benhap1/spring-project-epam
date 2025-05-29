@@ -10,4 +10,10 @@ public interface OrderService {
     List<OrderDTO> getOrdersByEmployee(String employeeEmail);
 
     OrderDTO addOrder(OrderDTO order);
+
+    OrderDTO submitOrder(Long orderId, String clientEmail);
+
+    OrderDTO confirmOrder(Long orderId, String employeeEmail);
+
+    OrderDTO cancelOrder(Long orderId, String employeeEmail);
 }

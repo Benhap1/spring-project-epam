@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class OrderDTO {
+    private Long id;
     private String clientEmail;
     private String employeeEmail;
     private LocalDateTime orderDate;

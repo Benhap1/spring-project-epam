@@ -30,10 +30,28 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    // Создание нового заказа
+
     @PostMapping
     public ResponseEntity<OrderDTO> addOrder(@RequestBody @Valid OrderDTO orderDTO) {
         OrderDTO createdOrder = orderService.addOrder(orderDTO);
         return ResponseEntity.ok(createdOrder);
+    }
+
+    @PatchMapping("/{orderId}/submit")
+    public ResponseEntity<OrderDTO> submitOrder(@PathVariable Long orderId, @RequestParam String clientEmail) {
+        OrderDTO submittedOrder = orderService.submitOrder(orderId, clientEmail);
+        return ResponseEntity.ok(submittedOrder);
+    }
+
+    @PatchMapping("/{orderId}/confirm")
+    public ResponseEntity<OrderDTO> confirmOrder(@PathVariable Long orderId, @RequestParam String employeeEmail) {
+        OrderDTO confirmedOrder = orderService.confirmOrder(orderId, employeeEmail);
+        return ResponseEntity.ok(confirmedOrder);
+    }
+
+    @PatchMapping("/{orderId}/cancel")
+    public ResponseEntity<OrderDTO> cancelOrder(@PathVariable Long orderId, @RequestParam String employeeEmail) {
+        OrderDTO cancelledOrder = orderService.cancelOrder(orderId, employeeEmail);
+        return ResponseEntity.ok(cancelledOrder);
     }
 }
