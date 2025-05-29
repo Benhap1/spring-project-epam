@@ -16,14 +16,12 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    // Получение заказов по email клиента
     @GetMapping("/client/{email}")
     public ResponseEntity<List<OrderDTO>> getOrdersByClient(@PathVariable String email) {
         List<OrderDTO> orders = orderService.getOrdersByClient(email);
         return ResponseEntity.ok(orders);
     }
 
-    // Получение заказов по email сотрудника
     @GetMapping("/employee/{email}")
     public ResponseEntity<List<OrderDTO>> getOrdersByEmployee(@PathVariable String email) {
         List<OrderDTO> orders = orderService.getOrdersByEmployee(email);

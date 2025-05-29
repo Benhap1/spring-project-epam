@@ -42,8 +42,15 @@ public class ClientController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{email}/block")
+    public ResponseEntity<Void> blockClient(@PathVariable String email) {
+        clientService.blockClient(email);
+        return ResponseEntity.ok().build();
+    }
 
-
-
-
+    @PutMapping("/{email}/unblock")
+    public ResponseEntity<Void> unblockClient(@PathVariable String email) {
+        clientService.unblockClient(email);
+        return ResponseEntity.ok().build();
+    }
 }

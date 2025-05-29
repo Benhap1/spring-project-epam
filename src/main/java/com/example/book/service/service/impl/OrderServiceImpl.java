@@ -50,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public OrderDTO addOrder(OrderDTO orderDTO) {
         Client client = clientRepository.findByEmail(orderDTO.getClientEmail())
@@ -60,9 +61,11 @@ public class OrderServiceImpl implements OrderService {
             employee = employeeRepository.findByEmail(orderDTO.getEmployeeEmail())
                     .orElseThrow(() -> new NotFoundException("Employee not found: " + orderDTO.getEmployeeEmail()));
         }
+
         if (orderDTO.getBookItems() == null || orderDTO.getBookItems().isEmpty()) {
             throw new CustomBadRequestException("Order must contain at least one book item");
         }
+
         Order order = Order.builder()
                 .client(client)
                 .employee(employee)
@@ -71,7 +74,15 @@ public class OrderServiceImpl implements OrderService {
                 .status(OrderStatus.DRAFT)
                 .build();
 
-        List<BookItem> bookItems = orderDTO.getBookItems().stream().map(itemDTO -> {
+        List<BookItem> bookItems = buildBookItems(orderDTO.getBookItems(), order);
+        order.setBookItems(bookItems);
+
+        Order saved = orderRepository.save(order);
+        return convertToDTO(saved);
+    }
+
+    private List<BookItem> buildBookItems(List<BookItemDTO> itemDTOs, Order order) {
+        return itemDTOs.stream().map(itemDTO -> {
             Long bookId = itemDTO.getBook().getId();
 
             Book book = bookRepository.findById(bookId)
@@ -83,12 +94,8 @@ public class OrderServiceImpl implements OrderService {
                     .order(order)
                     .build();
         }).collect(Collectors.toList());
-
-        order.setBookItems(bookItems);
-
-        Order saved = orderRepository.save(order);
-        return convertToDTO(saved);
     }
+
 
     private OrderDTO convertToDTO(Order order) {
         return OrderDTO.builder()

@@ -14,6 +14,7 @@ public class ClientDTO {
     private String firstName;
     private String lastName;
     private BigDecimal balance;
+    private Boolean enabled;
 
 }
 

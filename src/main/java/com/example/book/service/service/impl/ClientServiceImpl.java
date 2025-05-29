@@ -72,4 +72,20 @@ public class ClientServiceImpl implements ClientService {
         Client saved = clientRepository.save(client);
         return modelMapper.map(saved, ClientDTO.class);
     }
+
+    @Override
+    public void blockClient(String email) {
+        Client client = clientRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Client not found with email: " + email));
+        client.setEnabled(false);
+        clientRepository.save(client);
+    }
+
+    @Override
+    public void unblockClient(String email) {
+        Client client = clientRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Client not found with email: " + email));
+        client.setEnabled(true);
+        clientRepository.save(client);
+    }
 }
